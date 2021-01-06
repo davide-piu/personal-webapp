@@ -44,6 +44,6 @@ Necessaria versione Python >=  3.x
 
 `python manage.py createsuperuser`
 
-<a href="https://www.youtube.com/watch?v=UkokhawLKDU">Questo video</a> è utile nel caso si decida di caricare la Webapp su Heroku una volta modificato l'html. Per la gestione dei file static e per la sintassi di Django per la gestione dei template si rimanda alla <a href="https://docs.djangoproject.com/en/3.1/ref/templates/language/">Documentazione</a>
+<a href="https://www.youtube.com/watch?v=UkokhawLKDU">Questo video</a> è utile nel caso si decida di caricare la Webapp su Heroku una volta modificato l'html. Per la gestione dei file static e per la sintassi di Django per la gestione dei template si rimanda alla <a href="https://docs.djangoproject.com/en/3.1/ref/templates/language/">Documentazione</a>.
   
 
