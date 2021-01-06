@@ -22,7 +22,7 @@ Necessaria versione Python >=  3.x
     `pip install -r requirements.txt`
 
 
-- Ora i requirements e Django sono installati, si può fa partire la web app su localhost
+- Ora i requirements e Django sono installati, si può fa partire la web app su localhost:
 
     `python manage.py runserver`
 
