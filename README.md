@@ -44,7 +44,7 @@ Necessaria versione Python >=  3.x
 
 `python manage.py createsuperuser`
 
-Una volta modificato con l'html e tramite la <a href="https://docs.djangoproject.com/en/3.1/ref/templates/language/">sintassi utilizzata da Django per modificare i template</a> questo video è utile nel caso si decida di caricare la Webapp su Heroku:
+questo video è utile nel caso si decida di caricare la Webapp su Heroku una volta modificato con l'html e tramite la <a href="https://docs.djangoproject.com/en/3.1/ref/templates/language/">sintassi utilizzata da Django per modificare i template</a> :
 
 
 - https://www.youtube.com/watch?v=UkokhawLKDU
