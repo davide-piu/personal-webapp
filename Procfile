@@ -1,2 +1,2 @@
-web: gunicorn MioSito.wsgi
+web: gunicorn webapp.wsgi
 
