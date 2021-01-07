@@ -1,5 +1,5 @@
 # personal-webapp
-Web app da utilizzare come pagina personale, facilmente integrabile con app Blog tramite Django
+Web app da utilizzare come pagina personale, facilmente integrabile con app Blog tramite Django.
 Presenti static files con js e css. Il sito è in grado di gestire la ricezione delle email dal form. Necessario cambiare le impostazioni nel file **webapp/settings.py**:
 
 ![img_5.png](img_5.png)
