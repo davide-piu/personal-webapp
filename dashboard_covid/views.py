@@ -8,13 +8,13 @@ import pandas as pd
 def dashboard(request):
     """Funzione che prende i dati e manda al template della dashboard"""
     df = pd.read_json('https://query.data.world/s/lbd7qh3tc3eou7oxvwywpi27znqpns')
-    df_provincie = pd.read_json('https://query.data.world/s/rcatyiw4uwlpm545mrwwf7oaudyeys')
-    df_provincie = df_provincie[df_provincie['denominazione_regione'] =='Sardegna']
-    df_ss = df_provincie.loc[df_provincie['sigla_provincia'] == "SS"]
-    df_ca = df_provincie.loc[df_provincie['sigla_provincia'] == "CA"]
-    df_or = df_provincie.loc[df_provincie['sigla_provincia'] == "OR"]
-    df_su = df_provincie.loc[df_provincie['sigla_provincia'] == "SU"]
-    df_nu = df_provincie.loc[df_provincie['sigla_provincia'] == "NU"]
+    df_province = pd.read_json('https://query.data.world/s/rcatyiw4uwlpm545mrwwf7oaudyeys')
+    df_province = df_province[df_province['denominazione_regione'] =='Sardegna']
+    df_ss = df_province.loc[df_province['sigla_provincia'] == "SS"]
+    df_ca = df_province.loc[df_province['sigla_provincia'] == "CA"]
+    df_or = df_province.loc[df_province['sigla_provincia'] == "OR"]
+    df_su = df_province.loc[df_province['sigla_provincia'] == "SU"]
+    df_nu = df_province.loc[df_province['sigla_provincia'] == "NU"]
     df_ss.index = df_ss['data']
     df_ss.drop(['data'], axis=1, inplace=True)
     df_ca.index = df_ca['data']
@@ -30,7 +30,7 @@ def dashboard(request):
     df_nu = df_nu.pivot(columns='sigla_provincia', values='totale_casi')
     df_or = df_or.pivot(columns='sigla_provincia', values='totale_casi')
     df_su = df_su.pivot(columns='sigla_provincia', values='totale_casi')
-    df_provincie = pd.concat([df_ca, df_ss, df_nu, df_or, df_su], axis=1).reindex(df_ca.index)
+    df_province = pd.concat([df_ca, df_ss, df_nu, df_or, df_su], axis=1).reindex(df_ca.index)
 
     context={
         'data':list(df['data'].values),
@@ -53,12 +53,12 @@ def dashboard(request):
         'ingressi_terapia_intensiva':list(df['ingressi_terapia_intensiva'].values),
         'note_test':list(df['note_test'].values),
         'note_casi':list(df['note_casi'].values),
-        'Casi_Cagliari': list(df_provincie['CA'].values),
-        'Casi_Sassari': list(df_provincie['SS'].values),
-        'Casi_Nuoro': list(df_provincie['NU'].values),
-        'Casi_Oristano': list(df_provincie['OR'].values),
-        'Casi_Sud_Sardegna': list(df_provincie['SU'].values),
-        'data_provincie': list(df_provincie.index.values)
+        'Casi_Cagliari': list(df_province['CA'].values),
+        'Casi_Sassari': list(df_province['SS'].values),
+        'Casi_Nuoro': list(df_province['NU'].values),
+        'Casi_Oristano': list(df_province['OR'].values),
+        'Casi_Sud_Sardegna': list(df_province['SU'].values),
+        'data_provincie': list(df_province.index.values)
     }
 
     return render(request,'dashboard_covid/dashboard.html',context=context)
