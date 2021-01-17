@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'sito',
+    'dashboard_covid',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+{% load static %}
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HR7F049YDS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-HR7F049YDS');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mio Sito</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href=" {% static 'sito/assets/img/avataaars.svg' %}" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'dashboard_covid/css/styles.css' %}" rel="stylesheet" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+</head>
+<body id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="{% url 'sito:index' %}#page-top">Me</a>
+        <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'sito:index' %}#portfolio" hre>Progetti</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'sito:index' %}#about">Chi sono</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'sito:index' %}#contact">Contatti</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'dashboard' %}">Grafici COVID-19</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Masthead-->
+<div class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <p style="margin-bottom: 50px">
+        <h1>Italia COVID-19</h1>
+        <div id="grafico1" style="min-width: 100%; height: 100%; margin: 0 auto"></div>
+        </p>
+
+        <p style="margin-bottom: 50px">
+        <h1>Sardegna COVID-19 </h1>
+        <div id="grafico2" style="min-width: 100%; height: 100%; margin: 0 auto"></div>
+        </p>
+    </div>
+
+    {##}
+    {#        <div class="container-fluid" id="grafico2">#}
+    {#            <div class="row">#}
+        {#                <div class="col" id="grafico2">#}
+            {#                    <p><h1>Hello</h1></p>#}
+            {#                </div>#}
+        {#            </div>#}
+
+
+
+    <script>
+        Highcharts.theme = {
+            colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572',
+                '#FF9655', '#FFF263', '#6AF9C4'],
+            chart: {
+                backgroundColor: {
+                    linearGradient: [0, 0, 500, 500],
+                    stops: [
+                        [0, 'rgb(255, 255, 255)'],
+                        [1, 'rgb(240, 240, 255)']
+                    ]
+                },
+            },
+            title: {
+                style: {
+                    color: '#000',
+                    font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
+                }
+            },
+            subtitle: {
+                style: {
+                    color: '#666666',
+                    font: 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+                }
+            },
+            legend: {
+                itemStyle: {
+                    font: '9pt Trebuchet MS, Verdana, sans-serif',
+                    color: 'black'
+                },
+                itemHoverStyle:{
+                    color: 'gray'
+                }
+            }
+        };
+        // Apply the theme
+        Highcharts.setOptions(Highcharts.theme);
+
+        _categories = {{data|safe}};
+        Highcharts.chart('grafico1', {
+
+            title: {
+                text: 'Nuovi positivi, ICU, Ric. Sintomi, Tot Decessi'
+            },
+            subtitle: {
+                text: 'Dati da Protezione Civile aggiornati quotidianamente (data.world)'
+            },
+            xAxis: {
+                title:{
+                    text:'Giorni'
+
+                }
+            },
+            yAxis:{
+                type:'logarithmic',
+                title: {
+                    text: 'Log Casi'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:15px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Nuovi positivi',
+                data: {{ nuovi_positivi }}
+        },
+        {
+            name: 'Terapia Intensiva',
+                data: {{ terapia_intensiva }}
+        },
+        {
+            name: 'Ricoverati con sintomi',
+                data: {{ ricoverati_con_sintomi}}
+        },
+        {
+            name: 'Deceduti',
+                data: {{ deceduti}}
+        }
+
+
+        ]
+        });
+
+        _categories = {{data_provincie|safe}};
+        Highcharts.chart('grafico2', {
+            title: {
+                text: 'Tot. Casi Provincie Sardegna'
+            },
+            subtitle: {
+                text: 'Dati Protezione Civile aggiornati quotidianamente (data.world)'
+            },
+            xAxis: {
+                title:{
+                    text:'Giorni'
+
+                }
+            },
+            yAxis:{
+                title: {
+                    text: 'Casi'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:15px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Cagliari',
+                data: {{ Casi_Cagliari }}
+        },
+        {
+            name: 'Nuoro',
+                data: {{ Casi_Nuoro }}
+        },
+        {
+            name: 'Sassari',
+                data: {{ Casi_Sassari }}
+        },
+        {
+            name: 'Oristano',
+                data: {{ Casi_Oristano }}
+        },
+        {
+            name: 'Sud Sardegna',
+                data: {{ Casi_Sud_Sardegna }}
+        }
+
+        ]
+        });
+
+    </script>
+
+</div>
+    <!-- Portfolio Section-->
+
+    <!-- About Section-->
+    {#<section class="page-section bg-primary text-white mb-0" id="about">#}
+    {##}
+    {#</section>#}
+    <!-- Contact Section-->
+
+    <!-- Footer-->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <!-- Footer Location-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">Dove vivo</h4>
+                    <p class="lead mb-0">
+                        The jack loots with life, crush the bahamas
+                        <br />
+                    </p>
+                </div>
+                <!-- Footer Social Icons-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">Profili Social</h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/"><i class="fab fa-fw fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in//"><i class="fab fa-fw fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/"><i class="fab fa-fw fa-github"></i></a>
+                </div>
+                <!-- Footer About Text-->
+                <div class="col-lg-4">
+                    <h6 class="text-uppercase mb-4">Scarica questo Tema Bootstrap </h6>
+                    <p class="text-muted">
+                        Freelance is a free to use, MIT licensed Bootstrap theme created by
+                        <a href="http://startbootstrap.com">Start Bootstrap</a>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Copyright Section-->
+    <div class="copyright py-4 text-center text-white">
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Quest'opera è distribuita con Licenza <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribuzione 4.0 Internazionale</a>.
+    </div>
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+    <div class="scroll-to-top d-lg-none position-fixed">
+        <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
+    </div>
+    <!-- Portfolio Modals-->
+
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+    <script src="{% static 'sito/js/scripts.js' %}"></script>
+</body>
+</html>

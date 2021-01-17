@@ -16,3 +16,4 @@ sudo==1.0.0
 virtualenv==16.7.7
 virtualenv-clone==0.5.3
 whitenoise==5.2.0
+pandas
